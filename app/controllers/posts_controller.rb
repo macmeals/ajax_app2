@@ -4,19 +4,16 @@ class PostsController < ApplicationController
     @posts = Post.all.order(id: "DESC") # 全てのレコードを＠postsへ取得する
   end
 
-   #newアクションはいらない
-   #def new
-    
-   #end
+   
 
   def create
-    Post.create(contents: params[:content])
-    redirect_to action: :index
+    post = Post.create(contents: params[:contents], checked: false)
+    render json:{ post: post }
   end
 
   def checked
     post = Post.find(params[:id])
-    if post.checked 
+    if post.checked then
       post.update(checked: false)
     else
       post.update(checked: true)
